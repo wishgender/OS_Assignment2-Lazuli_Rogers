@@ -90,6 +90,11 @@ make CXX=clang
 
 When properly executed, the output should look like this:
 
+### Safe Output
+
 ![Expected Output](./examples/expectedOutputSafe.png "Safe Output")
+
+### Unsafe Output
+
 ![Expected Output](./examples/expectedOutputNotSafe.png "Not safe Output")
 
