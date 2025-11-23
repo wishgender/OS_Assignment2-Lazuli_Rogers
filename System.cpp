@@ -87,7 +87,8 @@ std::vector<int> System::safeSequence() const {
 std::vector<int> System::getRandomRequest(int pid) const {
     std::vector<int> retVal(m);
     for (auto i = 0; i < n; i++) {
-        retVal[i] = rand() % maximum[pid][i];
+        if (maximum[pid][i] > 0) retVal[i] = rand() % maximum[pid][i];
+        else retVal[i] = 0;
     }
     return retVal;
 }

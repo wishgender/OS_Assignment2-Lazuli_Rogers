@@ -86,6 +86,8 @@ make CXX=clang
 
 `./banker` will run the main program. It will read the data in `input.bank` and determine whether or not it is in a safe state. If it is in a safe state, the safe sequence will be printed to the console.
 
+A random request will be generated from one of the processes, and if it can safely be granted, it will do so. If resources are insufficient, it will be denied. If the process asks for more than its maximum, an error will be thrown.
+
 ## Expected Output
 
 When properly executed, the output should look like this:
@@ -98,3 +100,6 @@ When properly executed, the output should look like this:
 
 ![Expected Output](./examples/expectedOutputNotSafe.png "Not safe Output")
 
+### Error Output
+
+![Expected Output](./examples/expectedOutputError.png "Error Output")
