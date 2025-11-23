@@ -83,6 +83,56 @@ std::vector<int> System::safeSequence() const {
     return sequence;
 }
 
+//= generate a random request
+std::vector<int> System::getRandomRequest(int pid) const {
+    std::vector<int> retVal(m);
+    for (auto i = 0; i < n; i++) {
+        retVal[i] = rand() % maximum[pid][i];
+    }
+    return retVal;
+}
+
+//= request resource
+bool System::request(int pid, const std::vector<int>& req) {
+    if (pid < 0 || pid >= n)
+        throw std::runtime_error("Invalid process ID");
+
+    if (req.size() != (size_t)m)
+        throw std::runtime_error("Request vector size does not match resource types");
+
+    //= Check req <= need
+    for (int j = 0; j < m; j++)
+        if (req[j] > need[pid][j])
+            throw std::runtime_error("Process is asking for more than its maximum (req > need)");
+
+    //= Check req <= available
+    for (int j = 0; j < m; j++)
+        if (req[j] > available[j])
+            return false; // Must wait — insufficient resources
+
+    //= Pretend to allocate (save old state for rollback)
+    std::vector<int> oldAvail = available;
+    auto oldAlloc = allocation;
+    auto oldNeed  = need;
+
+    for (int j = 0; j < m; j++) {
+        available[j] -= req[j];
+        allocation[pid][j] += req[j];
+        need[pid][j] -= req[j];
+    }
+
+    //= Check safety
+    if (isSafeState())
+        return true;  // Allocation accepted
+
+    //= Roll back
+    available = oldAvail;
+    allocation = oldAlloc;
+    need = oldNeed;
+
+    return false; // Request would lead to unsafe state
+}
+
 //===============================//
 //==       Parsing Input       ==//
 //===============================//

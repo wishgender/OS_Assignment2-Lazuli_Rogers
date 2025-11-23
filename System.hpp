@@ -15,6 +15,7 @@ public:
     //= Algorithm functions
     bool isSafeState() const;
     std::vector<int> safeSequence() const;
+    bool request(int pid, const std::vector<int>& req);
 
     //= Getters
     int getProcessCount() const { return n; }
@@ -27,6 +28,7 @@ public:
     const std::vector<std::vector<int>>& getMaximum() const { return maximum; }
     const std::vector<std::vector<int>>& getNeed() const { return need; }
 
+    std::vector<int> getRandomRequest(int pid) const;
 private:
     int n; //= number of processes
     int m; //= number of resource types
